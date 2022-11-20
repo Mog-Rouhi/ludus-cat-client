@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 /* .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -66,10 +67,15 @@
 .cats-per-page {
   display: flex;
   flex-wrap: wrap;
+  max-width: 100wv;
 }
 
 .cat-frame {
   margin: 20px;
   width: 250px;
   height: 250px;
+}
+
+#search {
+  margin-left: 40vw;
 }

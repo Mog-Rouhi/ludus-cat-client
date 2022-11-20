@@ -1,15 +1,14 @@
-import logo from "./logo.svg";
 import "./App.css";
-import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "./pages/Home";
+import { Routes, Route } from "react-router-dom";
+import Search from "./components/Search";
 import Cat from "./pages/Cat";
-import CatSection from "./components/CatSection"
+
 
 function App() {
   return (
     <div className="App">
       <Routes>
-        <Route path="/" element={<Home />} />
+        {/* <Route path="/" element={<Search />} /> */}
         <Route path="/cats" element={<Cat />} />
         {/* <Route path="/cats/:number" element={<CatSection />}/> */}
       </Routes>

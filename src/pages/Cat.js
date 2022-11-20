@@ -1,23 +1,26 @@
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
-import { Link } from "react-router-dom";
-import CatSection from "../components/CatSection";
+import { useState, useEffect } from "react";
 
 const url = "http://localhost:5005";
+
 function Cat() {
   const [cats, setCats] = useState([]);
-  const [loading, setLoading] = useState(false);
+
+  //   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [catsPerPage, setCatsPerpage] = useState(10);
-  const [pageRange, setPageRange] = useState(20);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const getAllCats = () => {
     axios
       .get(`${url}/api/cats/tags`)
       .then((response) => {
-        setCats(response.data);
-        console.log(response.data);
-        setLoading(false);
+        const allTags = [];
+        response.data.forEach((tag)=>{
+            allTags.push(tag.toLowerCase())
+        })
+        setCats(allTags);
+        // setLoading(false);
       })
       .catch((err) => {
         console.log("error getting cats", err);
@@ -27,6 +30,31 @@ function Cat() {
   useEffect(() => {
     getAllCats();
   }, []);
+
+
+
+  console.log(searchTerm);
+
+  const searchedCats = () => {
+    if(searchTerm == ""){
+        setCats([...cats])
+    }
+    else if (searchTerm !== "") {
+      const catsMatch = cats.filter((item) => {
+        return item.toLowerCase().includes(searchTerm.toLowerCase());
+      });
+      setCats(catsMatch);
+    } 
+    // else {
+    //   setCats([...cats]);
+    // }
+  };
+
+
+  useEffect(() => {
+    searchedCats();
+  }, [searchTerm]);
+
 
   // Get current cats
   const indexOfLastCat = currentPage * catsPerPage;
@@ -56,55 +84,9 @@ function Cat() {
     paginate((currentPage) => currentPage + 1);
   };
 
-  const setLastPageAsCurrent = () => {
-    if (currentPage > pageNumbers.length) {
-      setCurrentPage(pageNumbers.length);
-    }
-  };
-
-  const displayPage = () => {};
-
-  //////////////
-
-  let isPageNumberOutOfRange;
-
-  // const pageNumbers = [...new Array(pagesCount)].map((_, index) => {
-  //   const pageNumber = index + 1;
-  //   const isPageNumberFirst = pageNumber === 1;
-  //   const isPageNumberLast = pageNumber === pagesCount;
-  //   const isCurrentPageWithinTwoPageNumbers =
-  //     Math.abs(pageNumber - currentPage) <= 2;
-
-  //   if (
-  //     isPageNumberFirst ||
-  //     isPageNumberLast ||
-  //     isCurrentPageWithinTwoPageNumbers
-  //   ) {
-  //     isPageNumberOutOfRange = false;
-  //     return (
-  //       <Pagination.Item
-  //         key={pageNumber}
-  //         onClick={() => onPageNumberClick(pageNumber)}
-  //         active={pageNumber === currentPage}
-  //       >
-  //         {pageNumber}
-  //       </Pagination.Item>
-  //     );
-  //   }
-
-  //   if (!isPageNumberOutOfRange) {
-  //     isPageNumberOutOfRange = true;
-  //     return <Pagination.Ellipsis key={pageNumber} className="muted" />;
-  //   }
-
-  //   return null;
-  // });
-
-  //////////////
-
   return (
     <div className="container mt-5">
-      <h1 className="text-primary mb-3">CATS</h1>
+      <h1 className="text-dark mb-3">CATS</h1>
       <nav>
         <ul className="pagination">
           <li class="page-item">
@@ -113,7 +95,7 @@ function Cat() {
               onClick={() => onPreviousPageClick()}
               aria-label="Previous"
             >
-              <span aria-hidden="true">&laquo;</span>
+              <span aria-hidden="true">&laquo; </span>
               <span class="sr-only">Previous Page</span>
             </a>
           </li>
@@ -127,19 +109,42 @@ function Cat() {
           <li class="page-item">
             <a
               class="page-link"
+              style={{
+                borderTopRightRadius: "5px",
+                borderBottomRightRadius: "5px",
+              }}
               onClick={() => onNextPageClick()}
               aria-label="Next"
             >
-              <span aria-hidden="true">&raquo;</span>
               <span class="sr-only">Next Page</span>
+              <span aria-hidden="true"> &raquo;</span>
             </a>
           </li>
+
+          {/* Search */}
+          <section class="heads" id="search">
+            <form>
+              <div class="input-group">
+                <input
+                  type="text"
+                  class="form-control rounded"
+                  placeholder="Search..."
+                  aria-label="Search"
+                  aria-describedby="search-addon"
+                  name="search"
+                  autoComplete="on"
+                  onChange={(event) => {
+                    setSearchTerm(event.target.value);
+                  }}
+                />
+              </div>
+            </form>
+          </section>
         </ul>
       </nav>
 
       <ul className="">
-        <div className="cats-per-page container">
-          {/* list-group mb-4 */}
+        <div className="cats-per-page container ">
           {currentCats.map((tag, index) => {
             return (
               <div>
