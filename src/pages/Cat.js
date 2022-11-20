@@ -1,12 +1,14 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import RiseLoader from "react-spinners/RiseLoader";
+
 
 const url = "http://localhost:5005";
 
 function Cat() {
   const [cats, setCats] = useState([]);
 
-  //   const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [catsPerPage, setCatsPerpage] = useState(10);
   const [searchTerm, setSearchTerm] = useState("");
@@ -20,7 +22,7 @@ function Cat() {
             allTags.push(tag.toLowerCase())
         })
         setCats(allTags);
-        // setLoading(false);
+        setLoading(false);
       })
       .catch((err) => {
         console.log("error getting cats", err);
@@ -85,6 +87,14 @@ function Cat() {
   };
 
   return (
+    <div className="">
+    <RiseLoader
+      color="gray"
+      loading={loading}
+      size={10}
+      aria-label="Loading Spinner"
+      data-testid="loader"
+    />
     <div className="container mt-5">
       <h1 className="text-dark mb-3">CATS</h1>
       <nav>
@@ -166,6 +176,7 @@ function Cat() {
           })}
         </div>
       </ul>
+    </div>
     </div>
   );
 }
