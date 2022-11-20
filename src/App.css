@@ -2,67 +2,26 @@
   text-align: center;
 }
 
-
-/* .App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-} */
-
-
-
-/* start my css */
-
 .cat-img {
   width: 200px;
   height: 200px;
   border-radius: 10px;
-  background-image: url(../public/nocat.jpg);
   margin: 10px 5px;
 }
-/* .cat-img[alt]:after {  
+
+ .cat-img[alt]:after {  
   display: block;
-  position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 50%;
+  height: 50%;
   background-color: #fff;
   font-family: 'Helvetica';
   font-weight: 300;
   line-height: 2;  
   text-align: center;
-  content: attr(alt);
-} */
+  content: url(../public/no-cat.png);
+} 
 
 .cats-per-page {
   display: flex;
@@ -77,5 +36,6 @@
 }
 
 #search {
-  margin-left: 40vw;
+  margin-bottom: 20px;
+  margin-top: 20px;
 }

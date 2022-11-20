@@ -1,83 +1,26 @@
-import React from 'react';
-import axios from "axios";
-import { useState, useEffect, useContext } from "react";
-const url = "http://localhost:5005";
+import React from "react";
 
-function Search() {
-    const [cats, setCats] = useState([]);
-
-    const [searchTerm, setSearchTerm] = useState("");
-
-    const getAllCats = () => {
-        axios
-          .get(`${url}/api/cats/tags`)
-          .then((response) => {
-            setCats(response.data);
-          })
-          .catch((err) => {
-            console.log("error getting cats", err);
-          });
-      };
-    
-      useEffect(() => {
-        getAllCats();
-      }, []);
-    
+function Search({ handleChange }) {
   return (
-    <div>
-        {/* Search */}
-        <section class="heads" id="search">
-            <form>
-              <div class="input-group">
-                <input
-                  type="search"
-                  class="form-control rounded"
-                  placeholder="Search..."
-                  aria-label="Search"
-                  aria-describedby="search-addon"
-                  name="search"
-                  onChange={(event) => {
-                    setSearchTerm(event.target.value);
-                  }}
-                />
-                {
-                  cats.filter((val) => {
-                    if (searchTerm !== "") {
-                      if (
-                        val.toLowerCase().includes(searchTerm.toLowerCase())
-                      ) {
-                        return val;
-                      }
-                }
-                  })
-                  //   .map((val, key) => {
-                  //     return (
-                  //       <div className="" key={key}>
-
-                  // {val !== "" && (
-                  //   <div className="cat-frame card">
-                  //     <li key={key} className="list-group-item">
-                  //       <img
-                  //         className="cat-img"
-                  //         src={`https://cataas.com/cat/${val}`}
-                  //         onerror="this.style.display='none'"
-                  //         alt="No Cat Picture"
-                  //       />
-                  //       <h6>#{val}</h6>
-                  //     </li>
-                  //   </div>
-                  // )}
-
-                  //       </div>
-                  //     );
-                  //   })
-                }
-              </div>
-            </form>
-          </section>
+    <div className="text-center" id="search" style={{ marginLeft: "auto" }}>
+      <div className="d-flex justify-content-center">
+        <form>
+          <input
+            type="text"
+            className="form-control rounded"
+            placeholder="Search..."
+            aria-label="Search"
+            aria-describedby="search-addon"
+            name="search"
+            autoComplete="on"
+            onChange={(event) => {
+              handleChange(event);
+            }}
+          />
+        </form>
+      </div>
     </div>
-  )
+  );
 }
 
 export default Search;
-
