@@ -1,6 +1,6 @@
-# CATAAS project created with Create React App
+# CAT A A S project created with React
 
-Using React to access CAT AS A SERVICE API.
+Fetching cat as a service API [https://cataas.com]
 
 ## Available Scripts
 
