@@ -1,6 +1,8 @@
-# CAT A A S project created with React
+# Project created with React and CATAAS API 
 
-Fetching [cat as a service API](https://cataas.com)
+* Fetching [cat as a service API](https://cataas.com)
+* Implement Search to filter data
+* Paginating the data received from API
 
 ## Available Scripts
 
