@@ -1,22 +1,47 @@
 import React from "react";
 import { useState } from "react";
 
-function Pagination({ cats }) {
+function Pagination({ cats, searchTerm, searchHandler }) {
   const [currentPage, setCurrentPage] = useState(1);
   const [catsPerPage, setCatsPerpage] = useState(10);
+
+  const [pageNumberLimit, setPageNumberLimit] = useState(10);
+  const [maxPageNumberLimit, setMaxPageNumberLimit] = useState(10);
+  const [minPageNumberLimit, setMinPageNumberLimit] = useState(0);
 
   // Get current cats
   const indexOfLastCat = currentPage * catsPerPage;
   const indexOfFirstCat = indexOfLastCat - catsPerPage;
   const currentCats = cats.slice(indexOfFirstCat, indexOfLastCat);
 
-  // Pagination
+  // Page numbers
   const pageNumbers = [];
   const totalCats = cats.length;
 
   for (let i = 1; i <= Math.ceil(totalCats / catsPerPage); i++) {
     pageNumbers.push(i);
   }
+
+  const handleClick = (event) => {
+    setCurrentPage(Number(event.target.id));
+  };
+
+  const renderPageNumbers = pageNumbers.map((number) => {
+    if (number < maxPageNumberLimit + 1 && number > minPageNumberLimit) {
+      return (
+        <li
+          key={number}
+          id={number}
+          onClick={handleClick}
+          className={currentPage == number ? "active" : null}
+        >
+          {number}
+        </li>
+      );
+    } else {
+      return null;
+    }
+  });
 
   // Change page
   const paginate = (pageNumber) => setCurrentPage(pageNumber);
@@ -27,47 +52,73 @@ function Pagination({ cats }) {
 
   const onPreviousPageClick = () => {
     paginate((currentPage) => currentPage - 1);
+
+    if ((currentPage - 1) % pageNumberLimit == 0) {
+      setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
+    }
   };
 
+  // Next page
   const onNextPageClick = () => {
     paginate((currentPage) => currentPage + 1);
+
+    if (currentPage + 1 > maxPageNumberLimit) {
+      setMaxPageNumberLimit(maxPageNumberLimit + pageNumberLimit);
+      setMinPageNumberLimit(minPageNumberLimit + pageNumberLimit);
+    }
+  };
+
+  // Create ... in page numbers display
+  let pageIncrementBtn = null;
+  if (pageNumbers.length > maxPageNumberLimit) {
+    pageIncrementBtn = <li onClick={onNextPageClick}> &hellip; </li>;
+  }
+
+  let pageDecrementBtn = null;
+  if (minPageNumberLimit >= 1) {
+    pageDecrementBtn = <li onClick={onPreviousPageClick}> &hellip; </li>;
+  }
+
+  // Load more button
+  const handleLoadMore = () => {
+    setCatsPerpage(catsPerPage + 10);
   };
 
   return (
     <div>
-      <ul className="pagination d-flex justify-content-center">
-        <li class="page-item">
-          <a
-            class="page-link"
-            onClick={() => onPreviousPageClick()}
-            aria-label="Previous"
+      <ul className="page-numbers pagination d-flex justify-content-center">
+        <li>
+          <button
+            className="btn-page"
+            onClick={onPreviousPageClick}
+            disabled={currentPage == pageNumbers[0] ? true : false}
           >
-            <span aria-hidden="true">&laquo; </span>
-            <span class="sr-only">Previous Page</span>
-          </a>
+            Previous
+          </button>
         </li>
-        {pageNumbers.map((number) => {
-          <li key={number} className="page-item">
-            <a onClick={() => paginate(number)} className="page-link">
-              {number}
-            </a>
-          </li>;
-        })}
-        <li class="page-item">
-          <a
-            class="page-link"
-            style={{
-              borderTopRightRadius: "5px",
-              borderBottomRightRadius: "5px",
-            }}
-            onClick={() => onNextPageClick()}
-            aria-label="Next"
+        {pageDecrementBtn}
+        {renderPageNumbers}
+        {pageIncrementBtn}
+
+        <li>
+          <button
+            className="btn-page"
+            onClick={onNextPageClick}
+            disabled={
+              currentPage == pageNumbers[pageNumbers.length] ? true : false
+            }
           >
-            <span class="sr-only">Next Page </span>
-            <span aria-hidden="true">  &raquo; </span>
-          </a>
+            Next
+          </button>
         </li>
       </ul>
+
+      <div className="fixed">
+        <button onClick={handleLoadMore} className="load-more">
+          Load More
+        </button>
+      </div>
       <ul className="">
         <div className="cats-per-page container ">
           {currentCats.map((tag, index) => {

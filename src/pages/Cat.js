@@ -1,14 +1,17 @@
+import React, { useRef } from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import RiseLoader from "react-spinners/RiseLoader";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 
-const url = "http://localhost:5005";
+const url = process.env.REACT_APP_API_URL || "http://localhost:5005";
 
 function Cat() {
+  const inputEl = useRef("");
   const [cats, setCats] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
 
   const [loading, setLoading] = useState(true);
 
@@ -32,26 +35,16 @@ function Cat() {
     getAllCats();
   }, []);
 
-  const searchedCats = () => {
-    if (searchTerm == "") {
-      setCats([...cats]);
-    } else if (searchTerm !== "") {
-      const catsMatch = cats.filter((item) => {
-        return item.toLowerCase().includes(searchTerm.toLowerCase());
+  const searchHandler = (searchTerm) => {
+    setSearchTerm(searchTerm);
+    if (searchTerm !== "") {
+      const newCatList = cats.filter((cat) => {
+        return cat.toLowerCase().includes(searchTerm.toLowerCase());
       });
-      setCats(catsMatch);
+      setSearchResults(newCatList);
+    } else {
+      setSearchResults(cats);
     }
-    // else {
-    //   setCats([...cats]);
-    // }
-  };
-
-  useEffect(() => {
-    searchedCats();
-  }, [searchTerm]);
-
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
   };
 
   return (
@@ -65,8 +58,16 @@ function Cat() {
       />
       <div className="container mt-5">
         <h1 className="text-dark mb-3">CATS</h1>
-        <Search handleChange={handleChange} />
-        <Pagination cats={[...cats]} />
+        <Search
+          searchTerm={searchTerm}
+          inputEl={inputEl}
+          searchKeyWord={searchHandler}
+        />
+        <Pagination
+          cats={searchTerm.length < 1 ? cats : searchResults}
+          searchTerm={searchTerm}
+          searchKeyWord={searchHandler}
+        />
       </div>
     </div>
   );
