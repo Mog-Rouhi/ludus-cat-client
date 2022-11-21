@@ -1,6 +1,6 @@
 # CAT A A S project created with React
 
-Fetching cat as a service API [https://cataas.com]
+Fetching [cat as a service API] (https://cataas.com)
 
 ## Available Scripts
 
