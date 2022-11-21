@@ -5,7 +5,7 @@ import RiseLoader from "react-spinners/RiseLoader";
 import Pagination from "../components/Pagination";
 import Search from "../components/Search";
 
-const url = process.env.REACT_APP_API_URL || "http://localhost:5005";
+const url = process.env.REACT_APP_URL || "http://localhost:5005";
 
 function Cat() {
   const inputEl = useRef("");

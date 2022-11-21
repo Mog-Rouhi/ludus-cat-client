@@ -33,7 +33,7 @@ function Pagination({ cats, searchTerm, searchHandler }) {
           key={number}
           id={number}
           onClick={handleClick}
-          className={currentPage == number ? "active" : null}
+          className={currentPage === number ? "active" : null}
         >
           {number}
         </li>
@@ -53,7 +53,7 @@ function Pagination({ cats, searchTerm, searchHandler }) {
   const onPreviousPageClick = () => {
     paginate((currentPage) => currentPage - 1);
 
-    if ((currentPage - 1) % pageNumberLimit == 0) {
+    if ((currentPage - 1) % pageNumberLimit === 0) {
       setMaxPageNumberLimit(maxPageNumberLimit - pageNumberLimit);
       setMinPageNumberLimit(minPageNumberLimit - pageNumberLimit);
     }
@@ -92,7 +92,7 @@ function Pagination({ cats, searchTerm, searchHandler }) {
           <button
             className="btn-page"
             onClick={onPreviousPageClick}
-            disabled={currentPage == pageNumbers[0] ? true : false}
+            disabled={currentPage === pageNumbers[0] ? true : false}
           >
             Previous
           </button>
@@ -106,7 +106,7 @@ function Pagination({ cats, searchTerm, searchHandler }) {
             className="btn-page"
             onClick={onNextPageClick}
             disabled={
-              currentPage == pageNumbers[pageNumbers.length] ? true : false
+              currentPage === pageNumbers[pageNumbers.length] ? true : false
             }
           >
             Next
@@ -131,7 +131,7 @@ function Pagination({ cats, searchTerm, searchHandler }) {
                         className="cat-img"
                         src={`https://cataas.com/cat/${tag}`}
                         onerror="this.style.display='none'"
-                        alt="No Cat Picture"
+                        alt="I am No Cat"
                       />
                       <h6>#{tag}</h6>
                     </li>

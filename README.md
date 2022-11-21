@@ -1,4 +1,4 @@
-# Project Created with Create React App
+# CATAAS project created with Create React App
 
 Using React to access CAT AS A SERVICE API.
 
@@ -6,10 +6,16 @@ Using React to access CAT AS A SERVICE API.
 
 In the project directory, you can run:
 
-### `npm start`
+### `npm run start`
 
-Runs the app in the development mode.\
+To run the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+
+
+## Environmental variable
+
+REACT_APP_URL --> Backend server
+
 
 ## Other npm packages
 
