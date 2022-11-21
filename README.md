@@ -36,7 +36,7 @@ npm i react-spinners
 
 ## Back-end  
  
-Backend repository --> [lodus-cat-server](https://github.com/Mog-Rouhi/ludus-cat-server)
+Back-end repository --> [lodus-cat-server](https://github.com/Mog-Rouhi/ludus-cat-server)
 
 
 <img src="./public/screenshot-1.jpg" alt="drawing" style="width:1000px;"/>
